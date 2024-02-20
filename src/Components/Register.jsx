@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { useMutation } from '@apollo/client';
 import { CREATE_USER } from '../GraphQL/mutation';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import Input from './useForm/Input'
 import RadioButton from './useForm/RadioButton'
 import Button from './useForm/Button'
@@ -9,11 +9,7 @@ import Select from './useForm/Select'
 import { toast } from "react-toastify";
 
 const Register = () => {
-
-
     const navigate = useNavigate();
-
-    const { id } = useParams()
     // console.log(id);
     const [CreateUser] = useMutation(CREATE_USER);
 
