@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Input from '../useForm/Input';
 import RadioButton from '../useForm/RadioButton';
 import Button from '../useForm/Button';
-import Select from '../useForm/Select';
+import Checkbox from '../useForm/CheckBoxButton';
 
 const UpdateUserByAdmin = () => {
     const navigate = useNavigate();
@@ -32,23 +32,20 @@ const UpdateUserByAdmin = () => {
 
 
     useEffect(() => {
-        if (id && userData) {
+        if (id && userData && setValue) {
             // Set form values once userData is available
-            
             setValue("firstName", userData.firstName || "");
             setValue("lastName", userData.lastName || "");
             setValue("gender", userData.gender || "");
             setValue("age", userData.age || "");
-            setValue("dateofbirth", (userData.dateofbirth).toISOString().split('T')[0] || "");
+            setValue("dateofbirth", userData.dateofbirth ? new Date(userData.dateofbirth).toISOString().split('T')[0] : "");
             setValue("hobbies", userData.hobbies || "");
-            setValue("active", userData.active == true ? true : false);
+            setValue("active", userData.active === true);
         }
     }, [id, userData, setValue]);
 
-    const selectOption = [
-        { label: 'isActive', value: true },
-        { label: 'Deactive', value: false },
-    ];
+
+    const isActiveOption = [true]
     const genderOption = ['male', 'female'];
 
     const onSubmit = (data) => {
@@ -60,11 +57,8 @@ const UpdateUserByAdmin = () => {
         // const { __typename, age, active, ...rest } = data;
         // console.log( typeof Boolean(active),typeof active );
         console.log(dirtyFields);
-        let isActive 
-        if (data.active === 'true') {
-            isActive = true;
-        } else {
-            isActive = false;
+        if (filteredObject.active) {
+            filteredObject.active = Boolean(filteredObject.active)
         }
         // console.log(data);
         updateUserByAdmin({
@@ -73,7 +67,6 @@ const UpdateUserByAdmin = () => {
                     ...filteredObject,
                     _id: id,
                     age: Number(data.age),
-                    active: isActive
                 },
             }
         })
@@ -128,13 +121,19 @@ const UpdateUserByAdmin = () => {
                                 </div>
 
                                 <div className="sm:col-span-4">
-                                    <Select
+                                    {/* <Select
                                         label="Active"
                                         options={selectOption}
                                         className={""}
                                         id="active"
                                         error={errors.active}
                                         {...register("active", { required: true })}
+                                    /> */}
+
+                                    <Checkbox
+                                        label={"isActive"}
+                                        option={isActiveOption}
+                                        {...register("active")}
                                     />
                                 </div>
 
