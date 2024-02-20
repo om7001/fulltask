@@ -34,11 +34,12 @@ const UpdateUserByAdmin = () => {
     useEffect(() => {
         if (id && userData) {
             // Set form values once userData is available
+            
             setValue("firstName", userData.firstName || "");
             setValue("lastName", userData.lastName || "");
             setValue("gender", userData.gender || "");
             setValue("age", userData.age || "");
-            setValue("dateofbirth", userData.dateofbirth || "");
+            setValue("dateofbirth", (userData.dateofbirth).toISOString().split('T')[0] || "");
             setValue("hobbies", userData.hobbies || "");
             setValue("active", userData.active == true ? true : false);
         }
