@@ -202,18 +202,6 @@ const UpdateUserByAdmin = () => {
                         </div>
                     </div>
                 </form>
-                {Object.keys(dirtyFields).length > 0 && (
-                    <div>
-                        <h2>Changed Fields:</h2>
-                        <ul>
-                            {Object.keys(dirtyFields).map(fieldName => (
-                                <li key={fieldName}>
-                                    <strong>{fieldName}:</strong> {getValues(fieldName)}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
             </div>
         </>
     );
