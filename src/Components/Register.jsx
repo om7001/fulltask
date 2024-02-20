@@ -73,12 +73,9 @@ const Register = () => {
                     <div className="space-y-12">
                         <div className="pb-12">
                             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                                {!id && <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                                     Registetion
-                                </h2>}
-                                {id && <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                                    Update User
-                                </h2>}
+                                </h2>
                             </div>
 
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -114,7 +111,7 @@ const Register = () => {
                                     </div>
                                 </div>
 
-                                {!id && <div className="sm:col-span-4">
+                                <div className="sm:col-span-4">
                                     <div className="mt-2">
                                         <Input
                                             label="Email Address"
@@ -133,9 +130,9 @@ const Register = () => {
 
                                         />
                                     </div>
-                                </div>}
+                                </div>
 
-                                {!id && <div className="sm:col-span-4">
+                                <div className="sm:col-span-4">
                                     <div className="mt-2">
                                         <Input
                                             label="Password"
@@ -155,9 +152,9 @@ const Register = () => {
 
                                         />
                                     </div>
-                                </div>}
+                                </div>
 
-                                {!id && <div className="sm:col-span-4">
+                                <div className="sm:col-span-4">
                                     <div className="mt-2">
                                         <Input
                                             label="Conform Password"
@@ -177,12 +174,12 @@ const Register = () => {
 
                                         />
                                     </div>
-                                </div>}
+                                </div>
                                 {/* {!id && getValues('password') !== getValues('cpassword') && (
                                     <p>Confirm Passwords not matched</p>
                                 )} */}
 
-                                {id && <div className="sm:col-span-4">
+                                <div className="sm:col-span-4">
                                     <Select
                                         label="Active"
                                         options={selectOption}
@@ -190,7 +187,7 @@ const Register = () => {
                                         id="active"
                                         error={errors.active}
                                         {...register("active", { valueAsBoolean: true })} />
-                                </div>}
+                                </div>
 
                                 <div className="sm:col-span-4">
                                     <RadioButton
@@ -250,16 +247,11 @@ const Register = () => {
                                 </div>
                             </div>
                             <div className="mt-10">
-                                {!id && <Button
+                                <Button
                                     label="Register"
                                     type="submit"
                                     className="flex justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                />}
-                                {id && <Button
-                                    label="Update"
-                                    type="submit"
-                                    className="flex justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                />}
+                                />
                             </div>
                         </div>
                     </div>

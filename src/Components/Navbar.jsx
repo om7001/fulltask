@@ -1,9 +1,12 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Navbar() {
 
     const navigate = useNavigate();
+
+    const [roll, setRoll] = useState()
 
     const handleLogout = () => {
         if (!localStorage.getItem("token") && !localStorage.getItem("roll")) {
@@ -15,6 +18,15 @@ function Navbar() {
         navigate("/");
 
     };
+    useEffect(() => {
+        const rall = localStorage.getItem("roll")
+        // console.log(rall);
+        if (rall === "admin") {
+            setRoll("admin");
+        } else {
+            setRoll("user"); 
+        }
+    }, [])
 
     return (
         <>
@@ -39,10 +51,15 @@ function Navbar() {
                             </div>
                             <div className="hidden sm:ml-6 sm:block">
                                 <div className="flex space-x-4">
-                                    {/* <a href="#" className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Dashboard</a> */}
-                                    {/* <Link to={`profile`} href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Profile</Link>
-                                    <Link to={`createpost`} href="#" className="text-gray-300 bg-blue-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">+ Post</Link> */}
-                                    {/* <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Profile</a> */}
+                                    <Link to={``} href="#" className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Dashboard</Link>
+                                    {roll === "user" && ( 
+                                        <>
+                                            <Link to={`profile`} className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Profile</Link>
+                                            <Link to={`createpost`} className="text-gray-300 bg-blue-700 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">+ Post</Link>
+                                        </>
+                                    )}
+
+                                    {/* {/* <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Profile</a> */}
                                 </div>
                             </div>
                         </div>

@@ -4,7 +4,8 @@ import AdminDashBoard from '../Admin/AdminDashBoard';
 import UpdateUserByAdmin from '../Admin/UpdateUserByAdmin';
 import ViewPostByAdmin from '../Admin/ViewPostByAdmin';
 import Error404 from '../Error404';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
+import Navbar from '../Navbar';
 
 // import UserDashboard from './User/UserDashBoard';
 
@@ -19,12 +20,16 @@ function AdminRoutes() {
         return null
     }
     return (
-        token && roll === "admin" && <Routes>
+        token && roll === "admin" && 
+        <>
+        <Navbar />
+        <Routes>
             <Route exact path="/" element={<AdminDashBoard />} />
             <Route exact path="updateuserbyadmin/:id" element={<UpdateUserByAdmin />} />
             <Route exact path="viewpostbyadmin/:id" element={<ViewPostByAdmin />} />
             <Route path='*' element={<Error404 />} />
         </Routes>
+        </>
     )
 }
 

@@ -6,6 +6,7 @@ import Profile from '../User/Profile';
 import UpdatePost from '../User/UpdatePost';
 import Error404 from '../Error404';
 import { useEffect, useState } from 'react';
+import Navbar from '../Navbar';
 // import Loding from '../Loding';
 
 
@@ -30,20 +31,23 @@ function UserRoutes() {
 
     // if (authToken && roll === "user") {
 
-    if(!token || roll !== "user"){
+    if (!token || roll !== "user") {
         navigate("/admindashboard")
         return null
     }
-        return (
-            token && roll === "user" && <Routes>
+    return (
+        token && roll === "user" &&
+        <>
+            <Navbar />
+            <Routes>
                 <Route exact path='/' element={<UserDashboard />} />
                 <Route exact path="createpost" element={<CreatePost />} />
                 <Route exact path="Profile" element={<Profile />} />
                 <Route exact path="updatepost/:id" element={<UpdatePost />} />
-                
                 <Route path='*' element={<Error404 />} />
             </Routes>
-        )
+        </>
+    )
     // }
 }
 

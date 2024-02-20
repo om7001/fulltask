@@ -1,5 +1,5 @@
 import Card from './Card';
-import Navbar from './Navbar';
+// import Navbar from './Navbar';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_POST_PAGINATION } from '../../GraphQL/query';
 import Pagination from './Pagination';
@@ -26,8 +26,7 @@ const UserDashboard = () => {
 
   return (
     <>
-      <Navbar />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 p-10 m-5">
         {data &&
           data.getPaginatedPosts &&
           data.getPaginatedPosts?.docs.map((res) => (
