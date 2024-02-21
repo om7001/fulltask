@@ -7,11 +7,14 @@ import RadioButton from './useForm/RadioButton'
 import Button from './useForm/Button'
 import Select from './useForm/Select'
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 const Register = () => {
     const navigate = useNavigate();
     // console.log(id);
     const [CreateUser] = useMutation(CREATE_USER);
+
+    const [verifyDialog,setVerifyDialog] = useState()
 
 
     const {
@@ -53,7 +56,8 @@ const Register = () => {
         })
             .then((result) => {
                 console.log(result.data);
-                toast.success("User Successfully Registered.")
+                toast.success("User Successfully Registered!")
+                setVerifyDialog(true)
                 navigate("/")
             })
             .catch((err) => {
@@ -253,6 +257,24 @@ const Register = () => {
                     </div>
                 </form>
             </div>
+
+            {verifyDialog && <div className="fixed inset-0 flex items-center justify-center backdrop-filter backdrop-blur-lg bg-opacity-75">
+                <div className="bg-white p-8 rounded shadow-md">
+                    <h2 className="text-2xl font-bold mb-4">Registration Successful!</h2>
+                    <p className="text-gray-600 mb-1">
+                        We have sent a verification email to your registered email address.                        
+                    </p>
+                    <p className="text-gray-600 mb-6">                       
+                        Please verify your email to activate your account.
+                    </p>
+                    <button
+                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
+                        onClick={() => navigate('/')}
+                    >
+                        Okay, got it!
+                    </button>
+                </div>
+            </div>}
         </>
     )
 }

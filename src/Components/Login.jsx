@@ -8,11 +8,12 @@ import { Link } from 'react-router-dom';
 import Input from './useForm/Input'
 import Button from './useForm/Button'
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 function Login() {
 
     const navigate = useNavigate();
-
+    const [verifyDialog, setVerifyDialog] = useState()
 
     const [LoginUser] = useMutation(LOGIN_USER);
 
@@ -43,31 +44,32 @@ function Login() {
                 },
             }
         })
-        .then((result) => {
-            console.log(result.data);
-            localStorage.setItem('token', result.data.loginUser.accessToken)
-            localStorage.setItem('roll', result.data.loginUser.roll)
-            // console.log(data);
-            if (result.data.loginUser.active && result.data.loginUser.isVerified) {
-                if (result.data.loginUser.roll === "user") {
-                    toast.success("Login Successfully");
-                    navigate('/userdashboard')
-                    
-                } else if (result.data.loginUser.roll === "admin") {
-                    toast.success("Admin Login Successfully");
-                    navigate('/admindashboard')
+            .then((result) => {
+                console.log(result.data);
+                localStorage.setItem('token', result.data.loginUser.accessToken)
+                localStorage.setItem('roll', result.data.loginUser.roll)
+                // console.log(data);
+                if (result.data.loginUser.active && result.data.loginUser.isVerified) {
+                    if (result.data.loginUser.roll === "user") {
+                        toast.success("Login Successfully");
+                        navigate('/userdashboard')
+
+                    } else if (result.data.loginUser.roll === "admin") {
+                        toast.success("Admin Login Successfully");
+                        navigate('/admindashboard')
+                    }
+                } else {
+                    // alert("please be verified!");
                 }
-            }else{
-                // alert("please be verified!");
-            }
-        })
-        .catch((err) => {
-            console.error(err.message);
-            // toast.error("Email ID And Password Not Match");
-            toast.error(err.message);
-
-
-        });
+            })
+            .catch((err) => {
+                console.error(err.message);
+                // toast.error("Email ID And Password Not Match");
+                toast.error(err.message);
+                if (err.message === "NOT_VERIFIED") {
+                    setVerifyDialog(true)
+                }
+            });
     }
 
     return (
@@ -114,7 +116,7 @@ function Login() {
                         </div>
 
                         <div className="text-sm">
-                        <Link to={`/sendforgotpasswordmail`}
+                            <Link to={`/sendforgotpasswordmail`}
                                 href="#"
                                 className="font-semibold text-indigo-600 hover:text-indigo-500"
                             >
@@ -145,6 +147,33 @@ function Login() {
                 </div>
 
             </div>
+
+            {verifyDialog && <div className="fixed inset-0 flex items-center justify-center backdrop-filter backdrop-blur-lg bg-opacity-75">
+                <div className="bg-white p-8 rounded shadow-md">
+                    <h2 className="text-2xl font-bold mb-4">Registration Successful!</h2>
+                    <p className="text-gray-600 mb-1">
+                        Please Check Your Mail!
+                    </p>
+                    <p className="text-gray-600 mb-1">
+                        We have sent a verification email to your registered email address.
+                    </p>
+                    <p className="text-gray-600 mb-6">
+                        The email has expired, so You have C to resent it .
+                    </p>
+                    <button
+                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
+                        onClick={() => navigate('/')}
+                    >
+                        Okay, got it!
+                    </button>
+                    <button
+                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
+                        onClick={() =>{}}
+                    >
+                        Resent
+                    </button>
+                </div>
+            </div>}
         </>
     )
 }
