@@ -4,6 +4,7 @@ import { GET_ALL_POST_PAGINATION_BY_ADMIN } from '../../GraphQL/query';
 import { useState } from 'react';
 import Pagination from '../User/Pagination';
 import Input from '../useForm/Input';
+import debounce from 'debounce';
 
 function ViewPostByAdmin() {
   // const [sortBy, setSortBy] = useState({ column: 'title', order: 'asc' });
@@ -28,14 +29,17 @@ function ViewPostByAdmin() {
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected + 1);
   };
-  // const handleSort = (column) => {
-  //   setSortBy({
-  //     column,
-  //     order: sortBy.column === column ? sortBy.order === 'asc' ? 'desc' : 'asc' : 'asc',
-  //   });
-  // };
 
   const totalPages = data?.getPaginatedPostsByAdmin?.totalPages || 0
+
+  const handleDebounce = debounce((value) => {
+    setSearch(value);
+  }, 1000);
+
+  const handleSearch = (e) => {
+    const inputValue = e.target.value;
+    handleDebounce(inputValue);
+  };
   // if (loading) return <p>Loading...</p>;
 
   // if (error) return <p>Error: {error.message}</p>;
@@ -60,7 +64,8 @@ function ViewPostByAdmin() {
           id="Search"
           placeholder="Search..."
           className=""
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => handleSearch(e)}
+        // onChange={(e) => setSearch(e.target.value)}
         />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4  p-10">

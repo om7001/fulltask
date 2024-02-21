@@ -17,7 +17,7 @@ const UpdateUserByAdmin = () => {
 
     const [userData, setUserData] = useState({});
     // console.log(userData);
-    const { loading, error, data } = useQuery(GET_USER_BY_ADMIN, {
+    const { data } = useQuery(GET_USER_BY_ADMIN, {
         variables: { id }
     });
 
@@ -28,7 +28,7 @@ const UpdateUserByAdmin = () => {
     }, [data]);
 
 
-    const { register, handleSubmit, formState: { errors, dirtyFields }, setValue, getValues } = useForm();
+    const { register, handleSubmit, formState: { errors, dirtyFields }, setValue } = useForm();
 
 
     useEffect(() => {

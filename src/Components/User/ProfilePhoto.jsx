@@ -7,10 +7,6 @@ import { GET_PROFILE } from '../../GraphQL/query';
 
 
 function ProfilePhoto() {
-
-
-
-
     const {
         register,
         setValue,

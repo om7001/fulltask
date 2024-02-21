@@ -84,7 +84,6 @@ function ChangePassword() {
                                 className=""
                                 {...register("npassword", { required: true })}
                                 error={errors.npassword}
-
                             />
                         </div>
 

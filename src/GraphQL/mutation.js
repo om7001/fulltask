@@ -14,6 +14,7 @@ mutation LoginUser($input: loginInput) {
     roll
     active
     isVerified
+    email
   }
 }
 `
@@ -107,5 +108,11 @@ mutation ChangePassword($input: changePasswordInput) {
   changePassword(input: $input) {
     _id
   }
+}
+`
+
+export const RESENT_VERIFICATION_MAIL = gql`
+mutation ResentVerificationMail($email: String!) {
+  resentVerificationMail(email: $email)
 }
 `

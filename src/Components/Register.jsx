@@ -1,11 +1,10 @@
 import { useForm } from "react-hook-form"
 import { useMutation } from '@apollo/client';
 import { CREATE_USER } from '../GraphQL/mutation';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Input from './useForm/Input'
 import RadioButton from './useForm/RadioButton'
 import Button from './useForm/Button'
-import Select from './useForm/Select'
 import { toast } from "react-toastify";
 import { useState } from "react";
 
@@ -14,14 +13,14 @@ const Register = () => {
     // console.log(id);
     const [CreateUser] = useMutation(CREATE_USER);
 
-    const [verifyDialog,setVerifyDialog] = useState()
+    const [verifyDialog, setVerifyDialog] = useState(false)
 
 
     const {
         register,
         // watch,
         // setValue,
-        // reset,
+        reset,
         // setFocus,
         // clearErrors,
         getValues,
@@ -31,10 +30,6 @@ const Register = () => {
         { firstName: "", lastName: "", email: "", password: "", cpassword: "", gender: false, age: null, dateofbirth: null, hobbies: "" }
     )
 
-    const selectOption = [
-        { label: 'isActive', value: true },
-        { label: 'Deactive', value: false },
-    ];
     const genderOption = ['male', 'female'];
 
     const onSubmit = (data) => {
@@ -58,13 +53,18 @@ const Register = () => {
                 console.log(result.data);
                 toast.success("User Successfully Registered!")
                 setVerifyDialog(true)
-                navigate("/")
+                reset()
+                // navigate("/")
             })
             .catch((err) => {
                 console.error(err.message);
             });
     }
 
+    const handleClick = () => {
+        setVerifyDialog(false)
+        navigate("/")
+    }
 
     return (
         <>
@@ -74,7 +74,7 @@ const Register = () => {
                         <div className="pb-12">
                             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                                 <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                                    Registetion
+                                    Registration
                                 </h2>
                             </div>
 
@@ -180,16 +180,6 @@ const Register = () => {
                                 )} */}
 
                                 <div className="sm:col-span-4">
-                                    <Select
-                                        label="Active"
-                                        options={selectOption}
-                                        className={""}
-                                        id="active"
-                                        error={errors.active}
-                                        {...register("active", { valueAsBoolean: true })} />
-                                </div>
-
-                                <div className="sm:col-span-4">
                                     <RadioButton
                                         label="Gender"
                                         className="col-auto"
@@ -262,14 +252,14 @@ const Register = () => {
                 <div className="bg-white p-8 rounded shadow-md">
                     <h2 className="text-2xl font-bold mb-4">Registration Successful!</h2>
                     <p className="text-gray-600 mb-1">
-                        We have sent a verification email to your registered email address.                        
+                        We have sent a verification email to your registered email address.
                     </p>
-                    <p className="text-gray-600 mb-6">                       
+                    <p className="text-gray-600 mb-6">
                         Please verify your email to activate your account.
                     </p>
                     <button
                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
-                        onClick={() => navigate('/')}
+                        onClick={() => { handleClick() }}
                     >
                         Okay, got it!
                     </button>

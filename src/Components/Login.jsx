@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../GraphQL/mutation';
+import { LOGIN_USER, RESENT_VERIFICATION_MAIL } from '../GraphQL/mutation';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 // import { toast } from 'react-toastify';
@@ -13,9 +13,11 @@ import { useState } from "react";
 function Login() {
 
     const navigate = useNavigate();
-    const [verifyDialog, setVerifyDialog] = useState()
+    const [verifyDialog, setVerifyDialog] = useState(false)
+    const [email, setEmail] = useState()
 
     const [LoginUser] = useMutation(LOGIN_USER);
+    const [ResentVerificationMail, { loading }] = useMutation(RESENT_VERIFICATION_MAIL);
 
     const handleClick = (e) => {
         navigate(`/${e.target.name}`);
@@ -67,9 +69,27 @@ function Login() {
                 // toast.error("Email ID And Password Not Match");
                 toast.error(err.message);
                 if (err.message === "NOT_VERIFIED") {
+                    setEmail(data.email)
                     setVerifyDialog(true)
                 }
-            });
+            })
+    }
+
+    const handleResent = () => {
+        ResentVerificationMail({
+            variables: {
+                email
+            }
+        })
+            .then((result) => {
+                console.log(result);
+                toast.success("Mail Sanded Successfully.")
+                setVerifyDialog(false)
+            })
+            .catch((err) => {
+                console.error(err.message);
+                toast.error(err.message);
+            })
     }
 
     return (
@@ -158,20 +178,34 @@ function Login() {
                         We have sent a verification email to your registered email address.
                     </p>
                     <p className="text-gray-600 mb-6">
-                        The email has expired, so You have C to resent it .
+                        The email has expired, so You have Click to resent it .
                     </p>
-                    <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
-                        onClick={() => navigate('/')}
-                    >
-                        Okay, got it!
-                    </button>
-                    <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
-                        onClick={() =>{}}
-                    >
-                        Resent
-                    </button>
+
+                    <div className="flex items-center"> {/* Container for button and loading spinner */}
+                        <button
+                            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
+                            onClick={() => setVerifyDialog(false)}
+                        >
+                            Okay, got it!
+                        </button>
+                        <button
+                            className="bg-blue-500 ml-2 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
+                            onClick={() => { handleResent() }}
+                        >
+                            Resend
+                        </button>
+                        {loading && (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" className="ml-2">
+                                <g stroke="#808080">
+                                    <circle cx={12} cy={12} r={9.5} fill="none" strokeLinecap="round" strokeWidth={3}>
+                                        <animate attributeName="stroke-dasharray" calcMode="spline" dur="1.5s" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" keyTimes="0;0.475;0.95;1" repeatCount="indefinite" values="0 150;42 150;42 150;42 150"></animate>
+                                        <animate attributeName="stroke-dashoffset" calcMode="spline" dur="1.5s" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" keyTimes="0;0.475;0.95;1" repeatCount="indefinite" values="0;-16;-59;-59"></animate>
+                                    </circle>
+                                    <animateTransform attributeName="transform" dur="2s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"></animateTransform>
+                                </g>
+                            </svg>
+                        )}
+                    </div>
                 </div>
             </div>}
         </>
