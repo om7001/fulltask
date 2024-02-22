@@ -3,11 +3,13 @@ import { GET_USER } from '../../GraphQL/query';
 import ProfilePhoto from './ProfilePhoto';
 import ChangePassword from './ChangePassword';
 import Button from '../useForm/Button'
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
 
+    const navigate = useNavigate();
     const handleGoBack = () => {
-        window.history.back();
+        navigate('/')
     };
 
     const { loading, error, data } = useQuery(GET_USER);

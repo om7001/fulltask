@@ -16,6 +16,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "debounce": "^2.0.0",
     "graphql-upload": "^16.0.2",
+    "lodash": "^4.17.21",
     "nodemailer": "^6.9.9",
     "react": "^18.2.0",
     "react-datepicker": "^6.1.0",
