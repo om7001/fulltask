@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 function DeleteUserByAdmin({ onClose, userId, refetch }) {
     const navigate = useNavigate();
     const [deleteUserByAdminMutation] = useMutation(DELETE_USER_BY_ADMIN);
-    // console.log(userId);
     const handleDelete = () => {
         deleteUserByAdminMutation({
             variables: {

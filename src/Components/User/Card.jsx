@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import DeletePost from './DeletePost';
 
-function Card({ id, title, description, createdBy, refetch }) {
+function Card({ id, title, description, createdBy, refetch, setCurrentPage, currentPage, dataLength }) {
     const [showModal, setShowModal] = useState(false);
 
     return (
@@ -26,7 +26,7 @@ function Card({ id, title, description, createdBy, refetch }) {
             </div>
 
 
-            {showModal && <DeletePost refetch={refetch} onClose={() => setShowModal(false)} id={id} />} {/* Pass id prop to DeletePost */}
+            {showModal && <DeletePost refetch={refetch} dataLength={dataLength} currentPage={currentPage} setCurrentPage={setCurrentPage} onClose={() => setShowModal(false)} id={id} />} {/* Pass id prop to DeletePost */}
         </div>
     );
 }

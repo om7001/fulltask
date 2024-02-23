@@ -103,11 +103,16 @@ function UpdatePost() {
                             />
                         </div>
 
-                        <div>
+                        <div style={{ display: 'flex', gap: '10px' }}>
                             <Button
-                                label="Upadate"
+                                label="Create"
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            />
+                            <Button
+                                label="Cancel"
+                                className="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                onClick={navigate("/")}
                             />
                         </div>
                     </form>

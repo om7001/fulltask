@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client';
 import { DELETE_POST } from '../../GraphQL/mutation';
 import { useNavigate } from 'react-router-dom';
 
-function DeletePost({ onClose, id, refetch }) { // Receive id as prop
+function DeletePost({ onClose, id, refetch, setCurrentPage, currentPage, dataLength }) { // Receive id as prop
     const navigate = useNavigate();
     // const [showModal, setShowModal] = useState(false);
 
@@ -17,9 +17,13 @@ function DeletePost({ onClose, id, refetch }) { // Receive id as prop
         })
             .then(async (result) => {
                 console.log(result.data);
-                navigate("/userdashboard");
+                // navigate("/userdashboard");
                 onClose();
-                await refetch()
+                if (dataLength === 1) {
+                    setCurrentPage(currentPage - 1)
+                } else {
+                    await refetch()
+                }
             })
             .catch((err) => {
                 console.error(err.message);
