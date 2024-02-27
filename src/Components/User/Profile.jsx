@@ -26,12 +26,12 @@ function Profile() {
 
         <div className="flex flex-wrap justify-center">
             <div className="w-2/4 lg:w-left-2/4">
-            <Button
-                label="Go Back"
-                type="button" 
-                className="flex mt-6 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                onClick={handleGoBack}
-            />
+                <Button
+                    label="Go Back"
+                    type="button"
+                    className="flex mt-6 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    onClick={handleGoBack}
+                />
                 <div className="px-4 py-12 lg:px-20">
                     <div>
                         <div className="px-4 sm:px-0">
@@ -127,6 +127,28 @@ function Profile() {
                     <div className="mb-4">
                         <ProfilePhoto />
                     </div>
+                    <div className="flex justify-center">
+                        <div className="flex-1 border-2 rounded-xl hover:bg-indigo-600 hover:text-white p-4 m-2 text-center"
+                            onClick={() => navigate("followeuser")}>
+                            {data.getUser.followers}<br />
+                            Followers
+                        </div>
+                        <div className="flex-1 border-2 rounded-xl hover:bg-indigo-600 hover:text-white p-4 m-2 text-center"
+                            onClick={() => navigate("followeuser")}>
+                            {data.getUser.following}<br />
+                            Following
+                        </div>
+                        <div className="flex-1 border-2 rounded-xl hover:bg-indigo-600 hover:text-white p-4 m-2 text-center"
+                            onClick={() => navigate("followeuser")}>
+                            {data.getUser.blockedUsers}<br />
+                            Blocked
+                        </div>
+                        <div className="flex-1 border-2 rounded-xl hover:bg-indigo-600 hover:text-white p-4 m-2 text-center"
+                            onClick={() => navigate("followeuser")}>
+                            Requested
+                        </div>
+                    </div>
+
                     <div>
                         <ChangePassword />
                     </div>

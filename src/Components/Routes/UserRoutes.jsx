@@ -5,9 +5,8 @@ import CreatePost from '../User/CreatePost';
 import Profile from '../User/Profile';
 import UpdatePost from '../User/UpdatePost';
 import Error404 from '../Error404';
-import { useEffect, useState } from 'react';
 import Navbar from '../Navbar';
-// import Loding from '../Loding';
+import FolloweUser from '../User/FolloweUser';
 
 
 function UserRoutes() {
@@ -40,11 +39,16 @@ function UserRoutes() {
         <>
             <Navbar />
             <Routes>
-                <Route exact path='/' element={<UserDashboard />} />
-                <Route exact path="createpost" element={<CreatePost />} />
-                <Route exact path="Profile" element={<Profile />} />
-                <Route exact path="updatepost/:id" element={<UpdatePost />} />
-                <Route path='*' element={<Error404 />} />
+                <Route path='/'>
+                    <Route index element={<UserDashboard />} />
+                    <Route exact path="createpost" element={<CreatePost />} />
+                    <Route exact path="Profile">
+                        <Route index element={<Profile />} />
+                        <Route exact path="followeuser" element={<FolloweUser />} />
+                    </Route>
+                    <Route exact path="updatepost/:id" element={<UpdatePost />} />
+                    <Route path='*' element={<Error404 />} />
+                </Route>
             </Routes>
         </>
     )

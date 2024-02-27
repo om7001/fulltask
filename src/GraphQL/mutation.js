@@ -116,3 +116,18 @@ mutation ResentVerificationMail($email: String!) {
   resentVerificationMail(email: $email)
 }
 `
+export const USER_REQUEST = gql`
+mutation CreateFollowers($input: createFollowersInput) {
+  createFollowers(input: $input) {
+    followerId {
+      _id
+      userName
+    }
+    status
+    userId {
+      _id
+      userName
+    }
+  }
+}
+`

@@ -121,6 +121,9 @@ query GetUser {
     hobbies
     createdAt
     updatedAt
+    followers
+    following
+    blockedUsers
   }
 }
 `
@@ -167,6 +170,76 @@ export const GET_PROFILE = gql`
 query Query {
   getProfilePhoto{
      url
+  }
+}
+`
+export const GET_FOLLOWERS = gql`
+query GetFollower($followerId: ID) {
+  getFollower(followerId: $followerId) {
+    followerId{
+      _id
+      userName
+    }
+    status
+    userId {
+      userName
+    }
+  }
+}
+`
+export const GET_FOLLOWING = gql`
+query GetFollowing($userId: ID) {
+  getFollowing(userId: $userId) {
+    followerId{
+      _id
+      userName
+    }
+    userId {
+      _id
+      userName
+    }
+    status
+  }
+}
+`
+
+export const GET_BLOCKED = gql`
+query GetBlockUser($userId: ID) {
+  getBlockUser(userId: $userId) {
+    userId{
+      _id
+      userName
+    }
+    followerId{
+      _id
+      userName
+    }
+    status
+  }
+}
+`
+
+export const GET_REQUESTED = gql`
+query GetRequestedUser($userId: ID) {
+  getRequestedUser(userId: $userId) {
+    followerId {
+      _id
+      userName
+    }
+    status
+    userId {
+      _id
+      userName
+    }
+  }
+}
+`
+
+export const GET_SEARCH_FOLLOW = gql`
+query GetFollow($search: String) {
+  getFollow(search: $search) {
+    _id 
+    userName
   }
 }
 `

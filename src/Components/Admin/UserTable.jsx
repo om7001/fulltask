@@ -51,11 +51,6 @@ function UserTable() {
             fetchPolicy: 'network-only'
         });
 
-    // useEffect(() => {
-    //     refetch();
-    //     // console.log(sortBy);
-    // }, [refetch]);
-
     const handleSort = (column) => {
         setSortBy({
             column,
