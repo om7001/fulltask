@@ -35,8 +35,16 @@ function FollowUser() {
         variables: { search },
         fetchPolicy: 'network-only'
     });
+    const { loading: postLoading, error: postError, data: postData, refetch: postRefetch } = useQuery(GET_FOLLOWING_POST, {
+        variables: {
+            input: {
+                followerId: String(id)
+            }
+        },
+        fetchPolicy: 'network-only'
+    });
 
-    // console.log(userData.getUser.userName);
+    // Button Click To Data Show
     const handleShowFollowers = () => {
         setFollowers(true);
         setFollowing(false);
@@ -57,7 +65,6 @@ function FollowUser() {
         followingRefetch()
     };
 
-    // console.log(requestedData);
     const handleShowBlocked = () => {
         setFollowers(false);
         setFollowing(false);
@@ -88,6 +95,7 @@ function FollowUser() {
         rejectedRefetch()
     }
 
+    // User Send Request
     const sendRequested = () => {
         if (searchUserData && searchUserData.getFollow) {
             CreateFollowers({
@@ -113,6 +121,7 @@ function FollowUser() {
         }
     };
 
+    // Rejected User Send Request
     const sendRErequested = (e, name) => {
         e.preventDefault();
         if (rejectedData && rejectedData.getRejectedUser) {
@@ -136,8 +145,8 @@ function FollowUser() {
                 })
         }
     }
-    // console.log(blockedData);
 
+    // User Answer On Request
     const handleSetValue = (e, Id, status) => {
         e.preventDefault();
         UserOnRequestAnswer({
@@ -152,15 +161,7 @@ function FollowUser() {
         requestedRefetch()
     }
 
-    const { loading: postLoading, error: postError, data: postData, refetch: postRefetch } = useQuery(GET_FOLLOWING_POST, {
-        variables: {
-            input: {
-                followerId: String(id)
-            }
-        },
-        fetchPolicy: 'network-only'
-    });
-
+    // Following User Post
     const handleShowPost = (e, Id) => {
         e.preventDefault();
         setId(Id)
@@ -244,6 +245,7 @@ function FollowUser() {
                     </g>
                 </svg>
             </div> : <div className="flex p-4">
+                {/* Search User */}
                 {searchUserData && searchUserData.getFollow && (
                     <div className="flex-1 m-2 bg-slate-300 max-w-xs rounded overflow-hidden shadow-lg">
                         <div className="px-6 py-4">
@@ -258,6 +260,8 @@ function FollowUser() {
                         </div>
                     </div>
                 )}
+
+                {/* Following User Post */}
                 {post && postData && postData.getFollowingPost && postData.getFollowingPost.map((post, index) => (
                     <div className="bg-slate-100 m-2 p-3 rounded-xl shadow-md overflow-hidden" key={index}>
                         <div className="p-5">
@@ -268,6 +272,8 @@ function FollowUser() {
                         </div>
                     </div>
                 ))}
+
+                {/* Followers */}
                 {followers && followersData && followersData.getFollower && followersData.getFollower.map((follower, index) => (
                     <div key={index} className="flex-1 m-2 bg-slate-300 max-w-xs rounded overflow-hidden shadow-lg">
                         <div className="px-6 py-4">
@@ -278,6 +284,8 @@ function FollowUser() {
                         </div>
                     </div>
                 ))}
+
+                {/* Following */}
                 {following && followingData && followingData.getFollowing && followingData.getFollowing.map((follower, index) => (
                     <div key={index} className="flex-1 m-2 bg-slate-300 max-w-xs rounded overflow-hidden shadow-lg">
                         <div className="px-6 py-4">
@@ -293,6 +301,8 @@ function FollowUser() {
                         </div>
                     </div>
                 ))}
+
+                {/* Blocked User */}
                 {blocked && blockedData && blockedData.getBlockUser && blockedData.getBlockUser.map((blockedUser, index) => (
                     <div key={index} className="flex-1 m-2 bg-slate-300 max-w-xs rounded overflow-hidden shadow-lg">
                         <div className="px-6 py-4">
@@ -316,6 +326,7 @@ function FollowUser() {
                     </div>
                 ))}
 
+                {/* Requested */}
                 {requested && requestedData && requestedData.getRequestedUser && requestedData.getRequestedUser?.map((requestedUser, index) => (
                     <div key={index} className="flex-1 m-2 bg-slate-300 max-w-96 rounded overflow-hidden shadow-lg">
                         <div className="px-6 py-4">
@@ -347,6 +358,7 @@ function FollowUser() {
                     </div>
                 ))}
 
+                {/* Rejected */}
                 {rejected && rejectedData && rejectedData.getRejectedUser && rejectedData.getRejectedUser.map((rejectedUser, index) => (
                     <div key={index} className="flex-1 m-2 bg-slate-300 max-w-xs rounded overflow-hidden shadow-lg">
                         <div className="px-6 py-4">
