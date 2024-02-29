@@ -2,36 +2,41 @@ import { useEffect, useState } from "react";
 import Button from "../useForm/Button";
 import Input from "../useForm/Input";
 import { useMutation, useQuery } from "@apollo/client";
-import { GET_FOLLOWERS, GET_FOLLOWING, GET_BLOCKED, GET_REQUESTED, GET_REJECTED, GET_SEARCH_FOLLOW, GET_FOLLOWING_POST } from "../../GraphQL/query";
+import { GET_FOLLOWERS, GET_FOLLOWING, GET_BLOCKED, GET_REQUESTED, GET_REJECTED, GET_SEARCH_FOLLOW, GET_FOLLOWING_POST, GET_USER } from "../../GraphQL/query";
 import { USER_REQUEST, USER_REQUEST_ANSWER } from "../../GraphQL/mutation";
 import { debounce } from "lodash";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function FollowUser() {
     // const navigator = useNavigate()
 
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState("");
     const [followers, setFollowers] = useState(true);
     const [following, setFollowing] = useState(false);
     const [blocked, setBlocked] = useState(false);
     const [requested, setRequested] = useState(false);
     const [rejected, setRejected] = useState(false);
     const [post, setPost] = useState(false);
+    const [searchInput, setSearchInput] = useState('');
     const [id, setId] = useState(false);
 
     const [CreateFollowers] = useMutation(USER_REQUEST);
     const [UserOnRequestAnswer] = useMutation(USER_REQUEST_ANSWER);
 
-    const { loading: followersLoading, error: followersError, data: followersData, refetch: followersRefetch } = useQuery(GET_FOLLOWERS);
-    const { loading: followingLoading, error: followingError, data: followingData, refetch: followingRefetch } = useQuery(GET_FOLLOWING);
-    const { loading: blockedLoading, error: blockedError, data: blockedData, refetch: blockedRefetch } = useQuery(GET_BLOCKED);
-    const { loading: requestedLoading, error: requestedError, data: requestedData, refetch: requestedRefetch } = useQuery(GET_REQUESTED);
-    const { loading: rejectedLoading, error: rejectedError, data: rejectedData, refetch: rejectedRefetch } = useQuery(GET_REJECTED);
+    const { loading, error, data: userData } = useQuery(GET_USER);
+
+    const { loading: followersLoading, error: followersError, data: followersData, refetch: followersRefetch } = useQuery(GET_FOLLOWERS, { fetchPolicy: 'network-only' });
+    const { loading: followingLoading, error: followingError, data: followingData, refetch: followingRefetch } = useQuery(GET_FOLLOWING, { fetchPolicy: 'network-only' });
+    const { loading: blockedLoading, error: blockedError, data: blockedData, refetch: blockedRefetch } = useQuery(GET_BLOCKED, { fetchPolicy: 'network-only' });
+    const { loading: requestedLoading, error: requestedError, data: requestedData, refetch: requestedRefetch } = useQuery(GET_REQUESTED, { fetchPolicy: 'network-only' });
+    const { loading: rejectedLoading, error: rejectedError, data: rejectedData, refetch: rejectedRefetch } = useQuery(GET_REJECTED, { fetchPolicy: 'network-only' });
     const { loading: searchUserLoading, error: searchUserError, data: searchUserData, refetch: searchUserRefetch } = useQuery(GET_SEARCH_FOLLOW, {
         variables: { search },
         fetchPolicy: 'network-only'
     });
-    console.log(rejectedData);
+
+    // console.log(userData.getUser.userName);
     const handleShowFollowers = () => {
         setFollowers(true);
         setFollowing(false);
@@ -80,7 +85,7 @@ function FollowUser() {
         setRequested(false);
         setPost(false)
         setRejected(true)
-        requestedRefetch()
+        rejectedRefetch()
     }
 
     const sendRequested = () => {
@@ -93,9 +98,19 @@ function FollowUser() {
                     }
                 },
                 fetchPolicy: 'network-only'
-            });
+            })
+                .then((result) => {
+                    console.log(result.data);
+                    toast.success("Request Sended.")
+                })
+                .catch((err) => {
+                    console.error(err.message);
+                    // toast.error("Email ID And Password Not Match");
+                    toast.error(err.message);
+                })
+            setSearchInput("")
+            setSearch("")
         }
-
     };
 
     const sendRErequested = (e, name) => {
@@ -109,10 +124,19 @@ function FollowUser() {
                     }
                 },
                 fetchPolicy: 'network-only'
-            });
+            }).then((result) => {
+                console.log(result.data);
+                toast.success("Request Re Sended.")
+                rejectedRefetch()
+            })
+                .catch((err) => {
+                    console.error(err.message);
+                    // toast.error("Email ID And Password Not Match");
+                    toast.error(err.message);
+                })
         }
     }
-    console.log(blockedData);
+    // console.log(blockedData);
 
     const handleSetValue = (e, Id, status) => {
         e.preventDefault();
@@ -124,15 +148,8 @@ function FollowUser() {
                 }
             },
             fetchPolicy: 'network-only'
-        });
-    }
-
-
-    const handleShowPost = (e, Id) => {
-        e.preventDefault();
-        setId(Id)
-        setFollowing(false)
-        setPost(true)
+        })
+        requestedRefetch()
     }
 
     const { loading: postLoading, error: postError, data: postData, refetch: postRefetch } = useQuery(GET_FOLLOWING_POST, {
@@ -144,6 +161,14 @@ function FollowUser() {
         fetchPolicy: 'network-only'
     });
 
+    const handleShowPost = (e, Id) => {
+        e.preventDefault();
+        setId(Id)
+        setFollowing(false)
+        setPost(true)
+        postRefetch()
+    }
+
     const handleDebounce = debounce((value) => {
         setSearch(value);
         setFollowers(false);
@@ -151,11 +176,12 @@ function FollowUser() {
         setBlocked(false);
         setRequested(false);
         setPost(false)
-    }, 2000);
+    }, 1000);
 
     const handleSearch = (e) => {
         const inputValue = e.target.value;
         handleDebounce(inputValue);
+        setSearchInput(inputValue)
         setFollowers(false);
     };
 
@@ -165,6 +191,9 @@ function FollowUser() {
 
     return (
         <div>
+            <div className="text-xl text text-center">
+                <p>{userData.getUser.userName}</p>
+            </div>
             <div className="flex">
                 <Button
                     label={"Followers"}
@@ -198,11 +227,23 @@ function FollowUser() {
                         id="Search"
                         placeholder="Search..."
                         className=""
-                        onChange={(e) => { handleSearch(e), setFollowers(false) }}
+                        value={searchInput}
+                        onChange={handleSearch}
+                    // onChange={(e) => { handleSearch(e), setFollowers(false) }}
                     />
                 </div>
             </div>
-            {followersLoading || followingLoading || blockedLoading || requestedLoading || searchUserLoading || postLoading ? <div>Loading...</div> : <div className="flex p-4">
+            {followersLoading || followingLoading || blockedLoading || requestedLoading || searchUserLoading || postLoading || rejectedLoading ? <div className="flex justify-center items-center h-screen">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-16 h-16" viewBox="0 0 24 24">
+                    <g stroke="#738b91">
+                        <circle cx="12" cy="12" r="9.5" fill="none" strokeLinecap="round" strokeWidth="3">
+                            <animate attributeName="stroke-dasharray" calcMode="spline" dur="1.5s" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" keyTimes="0;0.475;0.95;1" repeatCount="indefinite" values="0 150;42 150;42 150;42 150"></animate>
+                            <animate attributeName="stroke-dashoffset" calcMode="spline" dur="1.5s" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" keyTimes="0;0.475;0.95;1" repeatCount="indefinite" values="0;-16;-59;-59"></animate>
+                        </circle>
+                        <animateTransform attributeName="transform" dur="2s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"></animateTransform>
+                    </g>
+                </svg>
+            </div> : <div className="flex p-4">
                 {searchUserData && searchUserData.getFollow && (
                     <div className="flex-1 m-2 bg-slate-300 max-w-xs rounded overflow-hidden shadow-lg">
                         <div className="px-6 py-4">
@@ -211,7 +252,7 @@ function FollowUser() {
                                 <button
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                     onClick={sendRequested}>
-                                    Requested
+                                    Send Request
                                 </button>
                             </div>
                         </div>
@@ -223,6 +264,7 @@ function FollowUser() {
                             <h2 className="text-xl font-semibold">{post.title}</h2>
                             <p className="text-gray-600 mb-4">{post.description}</p>
                             <p className="text-sm text-gray-500">Created by: {post.createdBy?.firstName} {post.createdBy?.lastName}</p>
+                            <p className="text-sm text-gray-500">Publish Date: {(post.createdAt).split('T')[0]}</p>
                         </div>
                     </div>
                 ))}
@@ -259,9 +301,14 @@ function FollowUser() {
                                 <p className="text-gray-700 text-base">Username: <span className="text-gray-900 font-semibold">{blockedUser.followerId.userName}</span></p>
                             </div>
                             <div className="flex justify-between">
-                                <button 
-                                onClick={(e) => handleSetValue(e, blockedUser.userId._id, "accepted")}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                <button
+                                    onClick={(e) => handleSetValue(e, blockedUser.userId._id, "accepted")}
+                                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                    Accepted
+                                </button>
+                                <button
+                                    onClick={(e) => handleSetValue(e, blockedUser.userId._id, "rejected")}
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                     Unblock
                                 </button>
                             </div>
@@ -311,7 +358,7 @@ function FollowUser() {
                                 <button
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                     onClick={(e) => sendRErequested(e, rejectedUser.followerId.userName)}>
-                                    Requested
+                                    Send Re Request
                                 </button>
                             </div>
                         </div>

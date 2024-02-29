@@ -114,6 +114,7 @@ query GetUser {
   getUser {
     firstName
     lastName
+    userName
     email
     gender
     age
@@ -254,6 +255,7 @@ query GetFollowingPost($input: getFollowingPostInput) {
       firstName
       lastName
     }
+    createdAt
   }
 }
 `
