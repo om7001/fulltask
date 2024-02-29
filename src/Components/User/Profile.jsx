@@ -145,6 +145,7 @@ function Profile() {
                         </div>
                         <div className="flex-1 border-2 rounded-xl hover:bg-indigo-600 hover:text-white p-4 m-2 text-center"
                             onClick={() => navigate("followeuser")}>
+                            {data.getUser.request}<br />
                             Requested
                         </div>
                     </div>

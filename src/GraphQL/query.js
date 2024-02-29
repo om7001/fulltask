@@ -124,6 +124,7 @@ query GetUser {
     followers
     following
     blockedUsers
+    request
   }
 }
 `
@@ -240,6 +241,35 @@ query GetFollow($search: String) {
   getFollow(search: $search) {
     _id 
     userName
+  }
+}
+`
+export const GET_FOLLOWING_POST = gql`
+query GetFollowingPost($input: getFollowingPostInput) {
+  getFollowingPost(input: $input) {
+    _id
+    title
+    description
+    createdBy {
+      firstName
+      lastName
+    }
+  }
+}
+`
+
+export const GET_REJECTED = gql`
+query GetRejectedUser($userId: ID) {
+  getRejectedUser(userId: $userId) {
+    userId{
+      _id
+      userName
+    }
+    followerId{
+      _id
+      userName
+    }
+    status
   }
 }
 `

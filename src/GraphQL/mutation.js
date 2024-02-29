@@ -131,3 +131,12 @@ mutation CreateFollowers($input: createFollowersInput) {
   }
 }
 `
+
+export const USER_REQUEST_ANSWER = gql`
+mutation UserOnRequestAnswer($input: userOnRequestAnswerInput) {
+  userOnRequestAnswer(input: $input) {
+    userId
+    status
+  }
+}
+`

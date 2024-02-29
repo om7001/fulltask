@@ -86,7 +86,7 @@ function ViewPostByAdmin() {
       )}
       <div className="flex items-center my-5 mx-12">
         <Input
-          type="text"
+          type="text" 
           name="Search"
           id="Search"
           placeholder="Search..."
