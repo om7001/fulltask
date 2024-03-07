@@ -212,7 +212,7 @@ function FollowUser() {
                     onClick={handleShowBlocked}
                 />
                 <Button
-                    label={"Requested"}
+                    label={"Request"}
                     className={`flex-1 m-6 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 ${requested ? 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600' : ''}`}
                     onClick={handleShowRequested}
                 />
