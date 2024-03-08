@@ -227,7 +227,7 @@ function UserTable() {
                                                 <div className="text-sm leading-5 text-gray-900">{res.gender}</div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                <div className="text-sm leading-5 text-gray-900">{res.createdAt}</div>
+                                                <div className="text-sm leading-5 text-gray-900">{(res.createdAt).split('T')[0]}</div>
                                             </td>
                                             <td className="whitespace-no-wrap border-b border-gray-200">
                                                 <Link to={`viewpostbyadmin/${res._id}`}

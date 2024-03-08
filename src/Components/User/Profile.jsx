@@ -90,7 +90,7 @@ function Profile() {
                                         Date Of Birth
                                     </dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                        {data.getUser.dateofbirth}
+                                        {(data.getUser.dateofbirth).split('T')[0]}
                                     </dd>
                                 </div>
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -106,7 +106,7 @@ function Profile() {
                                         Created At
                                     </dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                        {data.getUser.createdAt}
+                                        {(data.getUser.createdAt).split('T')[0]}
                                     </dd>
                                 </div>
                                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -114,7 +114,7 @@ function Profile() {
                                         Updated At
                                     </dt>
                                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                        {data.getUser.updatedAt}
+                                        {(data.getUser.updatedAt).split('T')[0]}
                                     </dd>
                                 </div>
                             </dl>
